@@ -156,22 +156,29 @@
 
             try {
                 // Replace with your Google Apps Script URL
-                const scriptURL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+                const scriptURL = "https://script.google.com/macros/s/AKfycbyiTWjwbzpvzQ770EjVMXos4jYIJqLYqn_prG2E-RMrdQHaJjK0Hd7AhsJZJhBJOMs2/exec";
                 const response = await fetch(scriptURL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data),
-                    mode: 'no-cors' // Added to avoid CORS issues
+                    body: JSON.stringify(data)
                 });
 
-                // If no-cors is used, you can't access the response body
-                showToast('Traccia inviata correttamente!');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const responseData = await response.json();
+                if (responseData.result === "success") {
+                    showToast('Traccia inviata correttamente!');
+                } else {
+                    showToast('Errore durante l\'invio della traccia: ' + (responseData.error || 'Unknown error'));
+                }
             } catch (error) {
                 console.error('Error!', error.message);
-                showToast('Si è verificato un errore durante l'invio della traccia.');
-                }
+                showToast('Si è verificato un errore durante l\'invio della traccia.');
+            }
         });
 
         function showToast(message) {
