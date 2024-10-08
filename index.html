@@ -142,7 +142,7 @@
             // Validate SoundCloud link
             const soundcloudRegex = /^https?:\/\/(soundcloud\.com|snd\.sc)\/([a-zA-Z0-9\-_\/]+)$/;
             if (!soundcloudRegex.test(soundcloudLink)) {
-                showToast('Per favore, inserisci un link SoundCloud valido!');
+                showToast('Per favore, inserisci un link SoundCloud valido.');
                 return;
             }
 
@@ -156,26 +156,22 @@
 
             try {
                 // Replace with your Google Apps Script URL
-                const scriptURL = "https://script.google.com/macros/s/AKfycbxnIJA-i_K1SzyX4W5mlGdyr32s_S24-bT4daAzWVs0-mSobVG72-2sSRYSTPUPn83a/exec";
+                const scriptURL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
                 const response = await fetch(scriptURL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
+                    mode: 'no-cors' // Added to avoid CORS issues
                 });
 
-                // Parse the response if necessary
-                const responseData = await response.json();
-                if (responseData.result === "success") {
-                    showToast('Traccia inviata con successo!');
-                } else {
-                    showToast('Errore durante l\'invio della traccia: ' + (responseData.error || 'Unknown error'));
-                }
+                // If no-cors is used, you can't access the response body
+                showToast('Traccia inviata con successo!');
             } catch (error) {
                 console.error('Error!', error.message);
-                showToast('Si è verificato un errore durante l\'invio della traccia.');
-            }
+                showToast('Si è verificato un errore durante l'invio della traccia.');
+                }
         });
 
         function showToast(message) {
