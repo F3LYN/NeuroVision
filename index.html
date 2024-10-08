@@ -156,13 +156,13 @@
 
             try {
                 // Replace with your Google Apps Script URL
-                const scriptURL = "https://script.google.com/macros/s/AKfycbyiTWjwbzpvzQ770EjVMXos4jYIJqLYqn_prG2E-RMrdQHaJjK0Hd7AhsJZJhBJOMs2/exec";
+                const scriptURL = "https://script.google.com/macros/s/AKfycbzSEu26bo4iBLvP_uZhTEI6GCvK_fIO2VqTlIvxc5tzey3FP-025TYGqVl_huCNTchs/exec";
+
+                // Using URLSearchParams to send the data as URL-encoded
+                const qs = new URLSearchParams(data);
                 const response = await fetch(scriptURL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
+                    body: qs
                 });
 
                 if (!response.ok) {
